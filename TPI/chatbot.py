@@ -15,7 +15,7 @@ def load_data_from_csv(csv_file):
     return questions, answers
 
 # Load questions and answers from CSV
-questions, answers = load_data_from_csv('TPI/data.csv')
+questions, answers = load_data_from_csv('data.csv')
 
 # Vectorize the text data
 vectorizer = TfidfVectorizer()

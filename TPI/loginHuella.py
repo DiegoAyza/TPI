@@ -53,7 +53,7 @@ def auth(input):
     except:
         print('direccion de imagen invalida.')
 
-def login():
+def login():# EJEMPLO ->   TPI/img/huella1.jpg 
     print("\nHi! Please enter your fingerprint img path bellow. Type 'quit' to exit.")
     while True:
         user_input = input("Fingerprint path: ")

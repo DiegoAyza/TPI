@@ -1,21 +1,38 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify , render_template
 from chatbot import generate_response
-from loginHuella import decode_and_verify
+#from loginHuella import decode_and_verify
 from flask_cors import CORS
 
 app = Flask(__name__)
 CORS(app)
 
-@app.route('/chatbot', methods=['GET'])
-def chatbot_request():
-    text = request.args.get('input')
-    if text is None:
-        return jsonify({"error": "No input provided"}), 400
+@app.route('/')
+def index():
+    return render_template('index.html')
 
-    resultado = generate_response(text)
-    return jsonify({"request": text, "response": resultado})
+#Cambiar la URL a la que estás accediendo para que coincida con una ruta definida en tu aplicación Flask.
+@app.route('/app')
+def app_page():
+    return 'http://127.0.0.1:5000/app'
+
+# Configura la ruta de los archivos estáticos
+@app.route('/favicon.ico')
+def favicon():
+    return app.send_static_file('favicon.ico')
 
 
+@app.route('/process', methods=['POST'])
+def process():
+    if request.method == 'POST':
+        input_text = request.json['input']
+        response = generate_response(input_text)
+        return {'response': response}
+
+if __name__ == '__main__':
+    app.run(debug=True)
+
+
+"""
 @app.route('/upload', methods=['POST'])
 def upload_file():
     if 'image' not in request.files:
@@ -43,4 +60,4 @@ def upload_file():
             'user': 'none'
         }
 
-    return jsonify(response), 200;
+    return jsonify(response), 200"""

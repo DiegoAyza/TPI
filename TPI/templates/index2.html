@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chatbot</title>
+</head>
+<body>
+    <h1>Chatbot</h1>
+    <form id="chat-form">
+        <label for="question">Pregunta:</label>
+        <input type="text" id="question" name="question" required>
+        <button type="submit">Enviar</button>
+    </form>
+    <div id="chat-container"></div>
+
+    <script>
+        document.getElementById("chat-form").addEventListener("submit", function(event) {
+            event.preventDefault();
+            let question = document.getElementById("question").value;
+            displayResponse('Tú: ' + question);
+
+
+            fetch('/ask', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({question: question})
+            })
+            .then(response => response.json())
+            .then(data => {
+                displayResponse(data.response);
+            });
+        });
+
+        function displayResponse(response) {
+            let chatContainer = document.getElementById("chat-container");
+            let responseElement = document.createElement("p");
+            responseElement.textContent = "Chatbot: " + response;
+            chatContainer.appendChild(responseElement);
+        }
+    </script>
+</body>
+</html>
